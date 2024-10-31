@@ -17,7 +17,7 @@ public class LinearEquation {
 
     public double distance() {
         double D = Math.sqrt(Math.pow(X2 - X1,2) + Math.pow(Y2 - Y1,2));
-        return D;
+        return roundedToHundredth(D);
     }
 
 
@@ -40,28 +40,63 @@ public class LinearEquation {
 
         double numerator = Y2 - Y1;
         double denominator = X2 - X1;
+        String fraction = (int) numerator + "/" + (int) denominator;
+        int slope = (int) numerator / (int) denominator;
+        double intercept = yIntercept();
+        String interceptString;
+
+
+        if (intercept < 0) {
+            interceptString = " - " + roundedToHundredth(Math.abs(intercept));
+        } else {
+            interceptString = " + " + roundedToHundredth(intercept);
+        }
+
+        if (slope() == 0 && intercept == 0) {
+            return "y = 0";
+        }
+        else if (slope() != 0 && intercept == 0) {
+            return "y = " + fraction + "x";
+        }
 
         if (Y2 == Y1) {
-            return "y=" + yIntercept();
-        } else {
-            String fraction = (int) numerator + "/" + (int) denominator;
-            return "y= " + fraction + "x" + " + " + yIntercept();
+            return "y = " + roundedToHundredth(intercept);
+        }
+        else if (numerator % denominator == 0) {
+            if (slope == 1) {
+                return "y = x" + interceptString;
+            } else if (slope == -1) {
+                return "y = -x" + interceptString;
+            }
+            return "y = " + slope + "x" + interceptString;
+        }
+        else if (slope == -1) {
+            return "y = -x" + interceptString;
+        }
+        else {
+            int indexSlash = fraction.indexOf("/");
+
+            if (fraction.substring(0, 1).equals("-") && fraction.substring(indexSlash + 1, indexSlash + 2).equals("-")) {
+                fraction = fraction.substring(1, indexSlash) + "/" + fraction.substring(indexSlash + 2);
+            } else if (fraction.substring(indexSlash + 1, indexSlash + 2).equals("-") && !fraction.substring(0, 1).equals("-")) {
+                fraction = "-" + fraction.substring(0, indexSlash) + "/" + fraction.substring(indexSlash + 2);
+            }
+
+            return "y = " + fraction + "x" + interceptString;
         }
     }
+
+
 
     public String coordinateForX(double x) {
 
         double yCoordinate = ((x) * slope()) + yIntercept();
-        return "(" + x + "," + yCoordinate + ")";
+        return "(" + roundedToHundredth(x) + ", " + roundedToHundredth(yCoordinate) + ")";
     }
 
     public String lineInfo() {
 
-        return "\nThe two points are: " + "(" + X1 + "," + Y1 + ")" + " and " + "(" + X2 + "," + Y2 + ")" +
-                "\n The equation of the line between these" + " points is: " + equation() +
-                "\n The y-intercept of this line is: " + yIntercept() +
-                "\n The slope of this line is: " + slope() +
-                "\n The distance between these points is " + distance();
+        return"The two points are: " + "(" + X1 + ", " + Y1 + ")" + " and " + "(" + X2 + ", " + Y2 + ")\n" + "The equation of the line between these" + " points is: " + equation() + "\n" + "The y-intercept of this line is: " + roundedToHundredth(yIntercept()) +"\n" + "The slope of this line is: " + roundedToHundredth(slope()) + "\n" + "The distance between the two points is: " + distance() + "\n";
     }
 
     public double roundedToHundredth(double toRound) {
