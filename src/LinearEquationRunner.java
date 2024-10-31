@@ -5,9 +5,7 @@ public class LinearEquationRunner {
 
 
         LinearEquationLogic object = new LinearEquationLogic();
-
-
-        System.out.print(object.start());
+        object.start();
     }
 }
 
