@@ -47,7 +47,7 @@ public class LinearEquationLogic {
 
     }
 
-    public void getData() {
+    private void getData() {
 
         checkXSame = 0;
 
@@ -69,7 +69,7 @@ public class LinearEquationLogic {
     }
 
 
-        public void parseData() {
+        private void parseData() {
             int firstComma = first.indexOf(",");
             int secondComma = second.indexOf(",");
             X1 = Integer.parseInt(first.substring(1, firstComma));
